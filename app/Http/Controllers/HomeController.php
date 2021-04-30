@@ -27,9 +27,8 @@ class HomeController extends Controller
                     return view("admin")->with("usuarioDatos",$result);                                        
                     break;
             }
-            return "Yep";
         }else{
-            return "Nope";
+            return view('login');
         } 
     }
     //Sirve para mandar desde una página administrador a la página de busquedas

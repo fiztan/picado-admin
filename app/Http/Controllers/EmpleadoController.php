@@ -65,11 +65,11 @@ class EmpleadoController extends Controller
             DATE_FORMAT(picados.hora,"%d-%m-%Y %H:%i:%S") as fecha, picados.motivo,
              picados.imagen, picados.localizacion')->join('trabajadores','trabajadores.id','=','picados.personal')
              ->whereRaw("date(`hora`) BETWEEN '".$fechaDesdeRecibida."' AND '".$fechaHastaRecibida."'")
-             ->whereRaw($condicional)->get();          
+             ->whereRaw($condicional)->orderBy('fecha','desc')->get();          
         }else{
             $arrayResultante=picados::selectRaw('trabajadores.nombre, 
             DATE_FORMAT(picados.hora,"%d-%m-%Y %H:%i:%S") as fecha,
-             picados.motivo, picados.imagen, picados.localizacion') ->join('trabajadores','trabajadores.id','=','picados.personal')->whereRaw("date(`hora`) BETWEEN '".$fechaDesdeRecibida."' AND '".$fechaHastaRecibida."'")->get();
+             picados.motivo, picados.imagen, picados.localizacion') ->join('trabajadores','trabajadores.id','=','picados.personal')->whereRaw("date(`hora`) BETWEEN '".$fechaDesdeRecibida."' AND '".$fechaHastaRecibida."'")->orderBy('fecha','desc')->get();
 
         }
         return $arrayResultante;

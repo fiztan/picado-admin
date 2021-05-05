@@ -40,7 +40,7 @@
                             </tr>
                         @endforeach
                         <!--Se realiza un for para asegurarse que el espaciado de lineas es correcto para su impresion en pdf -->
-                        @for($linea=0;$linea<=(33-$totalLineas);$linea++)
+                        @for($linea=0;$linea<=(40-$totalLineas);$linea++)
                             <tr>
                                 <td>-</td>
                                 <td>-</td>
@@ -54,7 +54,13 @@
         @endif
         @endforeach            
     </div>
+   
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(window).on('load', function() {
+            window.print();
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>

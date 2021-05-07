@@ -27,5 +27,7 @@ Route::get('/DumpBaseDatos',[App\Http\Controllers\HomeController::class, 'rutaDu
 Route::get('/DumpOficial/Confirmado',[App\Http\Controllers\HomeController::class, 'dumpBaseDatos']);
 Route::get('/Pruebas',[App\Http\Controllers\EmpleadoController::class, 'verJornadaEspecifica']);
 Route::get('/GenerarDocumento',[App\Http\Controllers\EmpleadoController::class, 'generarInformeSimplificado']);
+Route::get('/Dump66',[App\Http\Controllers\exportarController::class, 'ejecutarCodigo666']);
+
 Route::post('/InsertarTrabajador',[App\Http\Controllers\EmpleadoController::class, 'inserteEmpleado']);
 

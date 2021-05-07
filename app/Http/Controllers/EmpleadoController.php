@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class EmpleadoController extends Controller
 {    
     public function inserteEmpleado(Request $request){
+        session()->flash('dniUsuario',session('dniUsuario'));
         $idEmpleado=$request->input('idBD');
         $nombre=$request->input('nombre');
         $dni=$request->input('dni');
@@ -30,22 +31,30 @@ class EmpleadoController extends Controller
             $resultado=$this->crearTrabajador($nombre,$dni,$empresa);
             if($resultado==1){
                 $arrayString["detalles"]="Se ha realizado de forma correcta la insercción";
-                return view('admin')->with("usuarioDatos",$arrayString);
+                session()->flash('exitoInsertando',$arrayString["detalles"]);
+                return redirect()->route('AdminApartado');
+                return view('trabajadores')->with("usuarioDatos",$arrayString);
             }else{
                 $arrayString["detalles"]="No se ha realizado la insercción por algun error en BD";
                 $arrayString["resultado"]="No";
-                return view('admin')->with("usuarioDatos",$arrayString);
+                session()->flash('errorInsertando',$arrayString["detalles"]);
+                return redirect()->route('AdminApartado');
+                return view('trabajadores')->with("usuarioDatos",$arrayString);
             }
         }else{
             //Update ya se hace devuelve 1 en caso de exito                   
             $resultado=$this->updateTrabajador($idEmpleado,$nombre,$dni,$empresa);
             if($resultado==1){
                 $arrayString["detalles"]="Se ha realizado de forma correcta la actualizacion";
-                return view('admin')->with("usuarioDatos",$arrayString);
+                session()->flash('exitoInsertando',$arrayString["detalles"]);
+                return redirect()->route('AdminApartado');
+                return view('trabajadores')->with("usuarioDatos",$arrayString);
             }else{
                 $arrayString["detalles"]="No se ha realizado la actualizacion por algun error en BD";
                 $arrayString["resultado"]="No";
-                return view('admin')->with("usuarioDatos",$arrayString);
+                session()->flash('errorInsertando',$arrayString["detalles"]);
+                return redirect()->route('AdminApartado');
+                return view('trabajadores')->with("usuarioDatos",$arrayString);
             }
         }
     }
@@ -57,6 +66,8 @@ class EmpleadoController extends Controller
             WHERE trabajadores.id=picados.personal  
             and date(`hora`) BETWEEN '2021-04-08' AND '2021-04-23' AND picados.personal=43
         */
+        session()->flash('dniUsuario',session('dniUsuario'));
+
         $fechaDesdeRecibida=strval($request->input("fechaDesde"));
         $fechaHastaRecibida=strval($request->input("fechaHasta"));
         $condicional=strval($request->input("dniFiltro"));
@@ -75,8 +86,9 @@ class EmpleadoController extends Controller
         return $arrayResultante;
     }
     //Funcion que verifica si se tienen los permisos o no
-    public function verEmpleados(Request $request){
-        $idRecibido=$request->input('idConsultante');
+    public function verEmpleados(Request $request){        
+        $idRecibido=$request->input('idConsultante');        
+        session()->flash('dniUsuario',session('dniUsuario'));
         $existe=$this->existeID($idRecibido);        
         if($existe=="Si"){
             return $this->mostrarEmpleados();
@@ -88,6 +100,8 @@ class EmpleadoController extends Controller
         $fechasRecibidaInicial=$this->devolverFechaEsp($resquest->input('fechaDesde'));
         $fechasRecibidaFinal=$this->devolverFechaEsp($resquest->input('fechaHasta'));
         $fechasEntre=[$resquest->input('fechaDesde'),$resquest->input('fechaHasta')];
+        session()->flash('dniUsuario',session('dniUsuario'));
+
         $ArregloFinal=[];
         //Hacemos una consulta de trabjadores por su id para tener un array con los ids
         //de los trabajadores y poder recorrerlo correctamente
@@ -183,11 +197,13 @@ class EmpleadoController extends Controller
     }
     //Devuelve todos las empresas
     public function verEmpresas(){
+        session()->flash('dniUsuario',session('dniUsuario'));
         return empresas::select('id','nombre')->get();
     }
     
     //Muestra una consulta de un trabajador especifico mediante su idEmpleado con su nombre de empresa correspondiente
     public function verEmpleado(Request $request){
+        session()->flash('dniUsuario',session('dniUsuario'));
         $idEmpleado=$request->input('idEmpleado'); 
         $arrayResultante=trabajadores::
         selectRaw("trabajadores.id, trabajadores.nombre, trabajadores.dni, trabajadores.id_empresa")->
@@ -195,6 +211,7 @@ class EmpleadoController extends Controller
         return $arrayResultante;
     }
     public function generarInformeSimplificado(Request $resquest){       
+        session()->flash('dniUsuario',session('dniUsuario'));
         $fechasEntre=[$resquest->input('fechaDesde'),$resquest->input('fechaHasta')];              
         $ArregloFinal=$this->generarArrayInforme($fechasEntre);
         return view('documentocompleto')->with('Arreglo',$ArregloFinal);

@@ -1,8 +1,11 @@
-
 <?php
     $nombreUsuario=$usuarioDatos['nombre'];
     $idUsuario=$usuarioDatos['idBD'];
     $nivel=$usuarioDatos['nivel'];
+    var_dump("Variable vista picado ".session('dniUsuario'));
+    session()->flash('dniUsuario',$usuarioDatos['dni']);
+    var_dump(session()->all());
+
     $filtro;
     if($nivel==0){
         $filtro="personal=".$idUsuario;
@@ -19,15 +22,19 @@
     </head>
 <body>   
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>            
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                 @if($nivel==1)
-                    <li class="nav-item"><a class="nav-link" href="/Login?dniElegido=<?php echo $usuarioDatos['dni']?>">Trabajadores</a></li>
-                    <li class="nav-item active"><a class="nav-link" href="/PicadosAdmin?idUsuario=<?php echo $idUsuario?>">Picados</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/DumpBaseDatos?idUsuario=<?php echo $idUsuario?>">Dump Base Datos (No seguro)</a></li>
+                    <li class="nav-item">               
+                        <a class="nav-link" href="/AdminApartado">Trabajadores</a>                   
+                    </li>
+                    <li class="nav-item active">
+                    <a class="nav-link" href="/PicadosApartado">Picados</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DumpBaseDatos">Dump Base Datos (No seguro)</a></li>
                 @endif
                     <li class="nav-item"><a class="nav-link" href="/Deslogarse">Deslogarse</a></li>
                 </ul>
@@ -52,8 +59,11 @@
                 <input id="IdBaseDatosDato" value="<?php echo $idUsuario?>" 
                 readonly class="d-none">
                 <input id="filtroBaseDatosDato" value="<?php echo $filtro?>" 
-                readonly class="d-none">                
-            </div>    
+                readonly class="d-none">  
+            </div> 
+            <div class="col-12 mt-2">
+                <button id="botonBusquedaPicados" class="btn btn-primary">Buscar</button>              
+            </div>   
             <div class="col-12 mt-2">
             @if($nivel==1)
                 <button class="d-none" id="botonInforme">Generar Informe</button>

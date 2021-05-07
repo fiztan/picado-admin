@@ -1,24 +1,19 @@
 "use strict"
-let inputDesde = document.getElementById("Inicio");
-let inputHasta = document.getElementById("Final");
-let stringDesde,stringHasta; 
-inputDesde.addEventListener('change',cambioValorDesde);
-inputHasta.addEventListener('change',cambioValorHasta);
-function cambioValorDesde(e) {
-    stringDesde = e.target.value;
-    comprobante(stringDesde,stringHasta);
-}
-function cambioValorHasta(e) {
-    stringHasta = e.target.value;    
-    comprobante(stringDesde,stringHasta);
-}
+let botonBusquedaFecha=document.getElementById('botonBusquedaPicados');
+botonBusquedaFecha.addEventListener('click',function(){
+    let inputDesde = document.getElementById("Inicio");
+    let inputHasta = document.getElementById("Final");
+    comprobante(inputDesde.value,inputHasta.value);
+});
+
 function comprobante(fechaDesde,fechaHasta){
     if((fechaDesde!=undefined)&&(fechaHasta!=undefined)){
         let date1 = new Date(fechaHasta);
-        let date2 = new Date(fechaDesde);
+        let date2 = new Date(fechaDesde);        
         if(date1.getTime()>=date2.getTime()){
-            busquedaFecha(fechaDesde,fechaHasta)
-        }
+            busquedaFecha(fechaDesde,fechaHasta);
+                console.log('Lol');
+            }            
     }
 }
 function busquedaFecha(fechaDesde,fechaHasta){

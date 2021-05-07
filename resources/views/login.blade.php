@@ -13,13 +13,15 @@
             </div>
         </div>
         
-        <form action="/Login" class="row mt-2" method="GET">
+        <form action="/Login" class="row mt-2" method="POST">
             <div class="col-12">
                 <div class="form-group">
                     <label for="dniElegido">DNI</label>
                     <input maxlength="9" type="text" class="form-control text-center" name="dniElegido" id="dniElegido" autocomplete="off">
                 </div>
                 <div class="form-group">
+                    <input type="hidden" class="d-none" name="_token" value="{{ csrf_token() }}" />
+
                     <button type="submit" class="btn btn-primary">Loguearse</button>
                 </div>
             </div>

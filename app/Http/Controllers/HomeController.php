@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\trabajadores;
 use Illuminate\Http\Request;
 
+
 class HomeController extends Controller
 {
     //Muestra el login
@@ -17,23 +18,69 @@ class HomeController extends Controller
     public function doLogin(Request $request)
     {
         $dni=$request->input('dniElegido');
-        $result=$this->dniExiste($dni);        
+        $result=$this->dniExiste($dni);                
         if($result["resultado"]!="No"){
             switch($result["nivel"]){
-                case 0:
-                    return view("picadobusqueda")->with("usuarioDatos",$result);
-                    break;
-                case 1:                            
-                    return view("admin")->with("usuarioDatos",$result);                                        
+                case 0:                 
+                    session()->flash('dniUsuario',$result['dni']);   
+                    return redirect()->route('PicadosApartado');
+                   //return redirect()->route('PicadosApartado')->with('result',$result['idBD']);
+                   break;
+                case 1:
+                    session()->flash('dniUsuario',$result['dni']);   
+                    return redirect()->route('PicadosApartado');
+                   //return redirect()->route('PicadosApartado')->with('result',$result['idBD']);
+                  ///  return view("admin")->with("usuarioDatos",$result);                                        
                     break;
             }
         }else{
             return view('login');
         } 
     }
+    public function deslogarse(){
+        return redirect()->route('nada');
+    }
+ 
+    public function rutaPicado(){        
+        $variableSesion=session('dniUsuario');
+        session()->flash('dniUsuario',$variableSesion);
+        $result=$this->dniExiste($variableSesion);        
+        if($result["resultado"]=="No"){
+            return "Esta en el metodo picado";
+        }
+        return view("picadobusqueda")->with("usuarioDatos",$result);         
+    }
+    public function rutaTrabajadores(){
+        $variableSesion=session('dniUsuario');
+        $errorInsertando=session('detallesError');
+        $exitoInsertando=session('detallesExito');      
+        session()->flash('dniUsuario',$variableSesion);
+        $result=$this->dniExiste($variableSesion);
+        if($result["resultado"]=="No"){
+            return "Esta en el metodo trabajadores";
+        }
+        if($errorInsertando!=null){
+            $result["detalles"]=$errorInsertando;
+            $result["resultado"]="No";
+        }
+        if($exitoInsertando!=null){
+            $result["detalles"]=$exitoInsertando;
+        }
+        return view('trabajadores')->with("usuarioDatos",$result);
+    }
+    public function rutaDumpBaseDatos(){
+        $variableSesion=session('dniUsuario');
+        session()->flash('dniUsuario',$variableSesion);
+        $result=$this->dniExiste($variableSesion);    
+        if($result["resultado"]=="No"){
+            return "Esta en el metodo DUMP";
+        }
+        return view("dumping")->with("usuarioDatos",$result);         
+    }
+
     //Sirve para mandar desde una página administrador a la página de busquedas
-    public function cambioURL(Request $request){
-        $idUsuario=$request->input('idUsuario');     
+    public function cambioURL(){      
+        $idUsuario=session('usuarioID');
         $datosUsuario=$this->devolverDatos($idUsuario);    
         if($datosUsuario['resultado']=="no"){
             return view('login');

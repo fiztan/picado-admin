@@ -1,5 +1,8 @@
 <?php 
 $idUsuario=$usuarioDatos['idBD'];
+var_dump(session('dniUsuario'));
+session()->flash('dniUsuario',session('dniUsuario'));
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,9 +18,9 @@ $idUsuario=$usuarioDatos['idBD'];
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="/Login?dniElegido=<?php echo $usuarioDatos['dni']?>">Trabajadores</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/PicadosAdmin?idUsuario=<?php echo $idUsuario?>">Picados</a></li>
-                    <li class="nav-item active"><a class="nav-link" href="/DumpBaseDatos?idUsuario=<?php echo $idUsuario?>">Dump Base Datos (No seguro)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/AdminApartado">Trabajadores</a></li>
+                    <a class="nav-link" href="/PicadosApartado">Picados</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="/DumpBaseDatos">Dump Base Datos (No seguro)</a></li>
                     <li class="nav-item"><a class="nav-link" href="/Deslogarse">Deslogarse</a></li>
                 </ul>
             </div>     

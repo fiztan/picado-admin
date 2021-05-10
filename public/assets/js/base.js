@@ -83,7 +83,11 @@ function mostrarResultado(respuesta){
         stringTabla+='<td>'+item.nombre+'</td>';
         stringTabla+='<td>'+slitFechaBarra(item.fecha)+'</td>';
         stringTabla+='<td>'+slitFechaHora(item.fecha)+'</td>';
-        stringTabla+='<td>'+item.motivo+'</td>';
+        if((item.motivo==null)||(item.motivo="")){
+            stringTabla+='<td>No hay motivo </td>';
+        }else{
+            stringTabla+='<td>'+item.motivo+'</td>';
+        }
         stringTabla+='<td>';
         if(item.imagen!=null){
         stringTabla+='<a data-fancybox="images" href="data:image/png;base64,'+item.imagen+'">'

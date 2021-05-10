@@ -5,20 +5,27 @@ botonBusquedaFecha.addEventListener('click',function(){
     let inputHasta = document.getElementById("Final");
     comprobante(inputDesde.value,inputHasta.value);
 });
-
 function comprobante(fechaDesde,fechaHasta){
     if((fechaDesde!=undefined)&&(fechaHasta!=undefined)){
         let date1 = new Date(fechaHasta);
         let date2 = new Date(fechaDesde);        
         if(date1.getTime()>=date2.getTime()){
             let selectEmpleadoInputValue = document.getElementById('selectEmpleado').value;
-            if(selectEmpleadoInputValue!=0){
-                let filtroBD = document.getElementById("filtroBaseDatosDato");
-                filtroBD.value=selectEmpleadoInputValue;
-            }
+            if(selectEmpleadoInputValue==null){
                 busquedaFecha(fechaDesde,fechaHasta);
                 console.log('Lol');
-            }            
+            }else{
+                if(selectEmpleadoInputValue!=0){
+                    let filtroBD = document.getElementById("filtroBaseDatosDato");
+                    filtroBD.value=selectEmpleadoInputValue;
+                }else{
+                    let filtroBD = document.getElementById("filtroBaseDatosDato");
+                    filtroBD.value="";
+                }
+                    busquedaFecha(fechaDesde,fechaHasta);
+                    console.log('Lol');
+            }
+        }            
     }
 }
 function busquedaFecha(fechaDesde,fechaHasta){
@@ -83,7 +90,7 @@ function mostrarResultado(respuesta){
         stringTabla+='<td>'+item.nombre+'</td>';
         stringTabla+='<td>'+slitFechaBarra(item.fecha)+'</td>';
         stringTabla+='<td>'+slitFechaHora(item.fecha)+'</td>';
-        if((item.motivo==null)||(item.motivo="")){
+        if((item.motivo==null)||(item.motivo=="")){
             stringTabla+='<td>No hay motivo </td>';
         }else{
             stringTabla+='<td>'+item.motivo+'</td>';

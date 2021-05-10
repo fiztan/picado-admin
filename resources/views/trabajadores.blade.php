@@ -2,14 +2,9 @@
 $nombreUsuario=$usuarioDatos['nombre'];
 $idUsuario=$usuarioDatos['idBD']; 
 $nivel=$usuarioDatos['nivel'];
-//var_dump("Variable vista Admin ".session('dniUsuario'));
-var_dump(session('dniUsuario'));
 session()->flash('dniUsuario',session('dniUsuario'));
-
 $detallesExito="";
 $detallesError="";
-
-
 if(isset($usuarioDatos["detalles"])){
     if($usuarioDatos["resultado"]=="Si"){
         $detallesExito=$usuarioDatos["detalles"];

@@ -16,7 +16,6 @@ Route::get('/',[App\Http\Controllers\HomeController::class, 'showLogin'])->name(
 Route::post('/Login',[App\Http\Controllers\HomeController::class, 'doLogin']);
 Route::get('/PicadosApartado',[App\Http\Controllers\HomeController::class, 'rutaPicado'])->name('PicadosApartado');
 Route::get('/AdminApartado',[App\Http\Controllers\HomeController::class, 'rutaTrabajadores'])->name('AdminApartado');
-
 Route::get('/Deslogarse',[App\Http\Controllers\HomeController::class, 'deslogarse']);
 Route::get('/PicadosAdmin',[App\Http\Controllers\HomeController::class, 'cambioURL']);
 Route::get('/personalBusqueda',[App\Http\Controllers\EmpleadoController::class, 'verEmpleados']);
@@ -27,7 +26,6 @@ Route::get('/DumpBaseDatos',[App\Http\Controllers\HomeController::class, 'rutaDu
 Route::get('/DumpOficial/Confirmado',[App\Http\Controllers\HomeController::class, 'dumpBaseDatos']);
 Route::get('/Pruebas',[App\Http\Controllers\EmpleadoController::class, 'verJornadaEspecifica']);
 Route::get('/GenerarDocumento',[App\Http\Controllers\EmpleadoController::class, 'generarInformeSimplificado']);
-Route::get('/Dump66',[App\Http\Controllers\exportarController::class, 'ejecutarCodigo666']);
-
+Route::get('/DumpearInsert',[App\Http\Controllers\exportarController::class, 'ejecutarExportarPHP']);
 Route::post('/InsertarTrabajador',[App\Http\Controllers\EmpleadoController::class, 'inserteEmpleado']);
 

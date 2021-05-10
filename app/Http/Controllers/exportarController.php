@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class exportarController extends Controller
 {
     //    
-    function ejecutarCodigo666(){
+    function ejecutarExportarPHP(){
         return view('Exportar');
     }
 }

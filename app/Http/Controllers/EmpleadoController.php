@@ -76,7 +76,7 @@ class EmpleadoController extends Controller
             DATE_FORMAT(picados.hora,"%d-%m-%Y %H:%i:%S") as fecha, picados.motivo,
              picados.imagen, picados.localizacion')->join('trabajadores','trabajadores.id','=','picados.personal')
              ->whereRaw("date(`hora`) BETWEEN '".$fechaDesdeRecibida."' AND '".$fechaHastaRecibida."'")
-             ->whereRaw($condicional)->orderBy('fecha','desc')->get();          
+             ->whereRaw('personal='.$condicional)->orderBy('fecha','desc')->get();          
         }else{
             $arrayResultante=picados::selectRaw('trabajadores.nombre, 
             DATE_FORMAT(picados.hora,"%d-%m-%Y %H:%i:%S") as fecha,
@@ -210,6 +210,7 @@ class EmpleadoController extends Controller
         where("id","=",$idEmpleado)->get();
         return $arrayResultante;
     }
+   
     public function generarInformeSimplificado(Request $resquest){       
         session()->flash('dniUsuario',session('dniUsuario'));
         $fechasEntre=[$resquest->input('fechaDesde'),$resquest->input('fechaHasta')];              

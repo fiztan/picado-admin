@@ -2,13 +2,10 @@
     $nombreUsuario=$usuarioDatos['nombre'];
     $idUsuario=$usuarioDatos['idBD'];
     $nivel=$usuarioDatos['nivel'];
-    var_dump("Variable vista picado ".session('dniUsuario'));
     session()->flash('dniUsuario',$usuarioDatos['dni']);
-    var_dump(session()->all());
-
     $filtro;
     if($nivel==0){
-        $filtro="personal=".$idUsuario;
+        $filtro=$idUsuario;
     }else{
         $filtro="";
     }
@@ -61,9 +58,20 @@
                 <input id="filtroBaseDatosDato" value="<?php echo $filtro?>" 
                 readonly class="d-none">  
             </div> 
+            @if($nivel==1)
+            <div class="col-12 mt-4 text-center">
+                <select id="selectEmpleado" class="form-control">
+                    <!--For each -->
+                    <option selected value="0">Elija empleado</option>
+                    @foreach($empleados as $empleado)
+                        <option value="{{$empleado->id}}">{{$empleado->nombre}}</option>
+                    @endforeach
+                </select>
+            </div>
+            @endif    
             <div class="col-12 mt-2">
-                <button id="botonBusquedaPicados" class="btn btn-primary">Buscar</button>              
-            </div>   
+                <button type="button" id="botonBusquedaPicados" class="btn btn-primary">Buscar</button>              
+            </div>
             <div class="col-12 mt-2">
             @if($nivel==1)
                 <button class="d-none" id="botonInforme">Generar Informe</button>

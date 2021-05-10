@@ -1,6 +1,5 @@
 <?php 
 $idUsuario=$usuarioDatos['idBD'];
-var_dump(session('dniUsuario'));
 session()->flash('dniUsuario',session('dniUsuario'));
 ?>
 <!DOCTYPE html>
@@ -32,7 +31,7 @@ session()->flash('dniUsuario',session('dniUsuario'));
             <h1>Salvaguardar Base de datos actual</h1>
         </div>
         <div class="col-12 mt-2">
-            <a class="btn btn-primary" target="_blank" href="/Dump66">Descargar inserts</a>
+            <a class="btn btn-primary" target="_blank" href="/DumpearInserts">Descargar inserts</a>
         </div>
     </div>
 </div>

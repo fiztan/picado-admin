@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\trabajadores;
 use Illuminate\Http\Request;
 
-
 class HomeController extends Controller
 {
     //Muestra el login
@@ -47,8 +46,9 @@ class HomeController extends Controller
         $result=$this->dniExiste($variableSesion);        
         if($result["resultado"]=="No"){
             return "Esta en el metodo picado";
-        }
-        return view("picadobusqueda")->with("usuarioDatos",$result);         
+        }        
+        $arrayResultado=$this->verEmpleadoGeneric();                    
+        return view("picadobusqueda")->with("usuarioDatos",$result)->with('empleados',$arrayResultado);         
     }
     public function rutaTrabajadores(){
         $variableSesion=session('dniUsuario');
@@ -145,5 +145,8 @@ class HomeController extends Controller
             );
             return $arrayString;
         }    
+    }
+    private function verEmpleadoGeneric(){        
+        return trabajadores::select('trabajadores.id', 'trabajadores.nombre')->get();
     }
 }

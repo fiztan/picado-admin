@@ -10,11 +10,12 @@ function comprobante(fechaDesde,fechaHasta){
         let date1 = new Date(fechaHasta);
         let date2 = new Date(fechaDesde);        
         if(date1.getTime()>=date2.getTime()){
-            let selectEmpleadoInputValue = document.getElementById('selectEmpleado').value;
-            if(selectEmpleadoInputValue==null){
+            let elementInput = document.getElementById('selectEmpleado')
+            if(elementInput==null){
                 busquedaFecha(fechaDesde,fechaHasta);
                 console.log('Lol');
             }else{
+                let selectEmpleadoInputValue = document.getElementById('selectEmpleado').value;
                 if(selectEmpleadoInputValue!=0){
                     let filtroBD = document.getElementById("filtroBaseDatosDato");
                     filtroBD.value=selectEmpleadoInputValue;

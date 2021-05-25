@@ -99,9 +99,9 @@ if(isset($usuarioDatos["detalles"])){
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar</button>   
-                <button type="button" class="btn btn-danger" id="botonVolver">Volver</button>
-            </form>  
-                   
+                <button type="button" class="btn btn-danger" id="botonVolver">Volver</button>                
+                <button type="button" class="d-none btn btn-warning" id="botonReseteo">Resetear Contraseña</button>                
+            </form>                     
         </div>
         <div class="row">
             <div class="col-12">

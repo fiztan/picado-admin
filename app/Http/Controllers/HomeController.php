@@ -4,20 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\trabajadores;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
 
 class HomeController extends Controller
 {
     //Muestra el login
     public function showLogin()
     {
-        return view('login');
+        if(
+            session('ejecucion')!=null
+        ){  
+            return view('login')->with('exito',session('ejecucion')); 
+        }else{
+            return view('login')->with('exito',"");
+        }       
     }
     //Verific el dni recibido en caso de Exito verifica cual es su nivel de privilegios dependiendo este
     //mandará a la página con los datos necesarios correspondientes.
     public function doLogin(Request $request)
     {
-        $dni=$request->input('dniElegido');
-        $result=$this->dniExiste($dni);                
+        $correo=$request->input('correo');
+        $password=$request->input('password');       
+        $result=$this->devolverDNI($correo,$password);       
+        //$dni=$request->input('dniElegido',$password);
+        //$result=$this->dniExiste($dni);                
         if($result["resultado"]!="No"){
             switch($result["nivel"]){
                 case 0:                 
@@ -39,6 +50,44 @@ class HomeController extends Controller
     public function deslogarse(){
         return redirect()->route('nada');
     }
+    public function olvidoPassword(){
+        return view('usuarioReset');
+    }
+    public function reseteoPassEmpleadoUsuario(Request $request){
+        $correo=$request->input('correo');
+        $trabajador=trabajadores::select('id')->where('correo','=',$correo)->first();
+        if(!empty($trabajador)){            
+            $contraseniaSinMD5=$this->random_password();           
+            $trabajador=trabajadores::find($trabajador['id']);
+            $trabajador->password=md5($contraseniaSinMD5);
+            $correo=$trabajador->correo;
+            $trabajador->save();   
+            return $this->basic_email($correo,$contraseniaSinMD5);
+        }else{
+            session()->flash('ejecucion',"Correo incorrecto");
+            return redirect()->route('nada');;
+        }
+    }
+    private function random_password()  
+    {  
+        $longitud = 8; // longitud del password  
+        $pass = substr(md5(rand()),0,$longitud);  
+        return($pass); // devuelve el password   
+    }  
+
+    private function basic_email($correo,$password) {
+        session()->flash('correo',$correo);
+        $contenido="La nueva contraseña es: ".$password."";
+        Mail::raw($contenido, 
+           function ($message) {
+                $correo=session('correo');
+                $message->to($correo)
+                ->subject('Reseteo de contraseña');
+           }
+        ); 
+        session()->flash('ejecucion',"Compruebe su correo");
+        return redirect()->route('nada');;
+     } 
  
     public function rutaPicado(){        
         $variableSesion=session('dniUsuario');
@@ -113,6 +162,22 @@ class HomeController extends Controller
     private function dniExiste($dniString){
         $stringDNI=strval($dniString);
         $arrayResultado = trabajadores::where('dni',"=",$stringDNI)->get();
+        if(sizeOf($arrayResultado)==0){
+            $arrayString = array("resultado"=>"No");
+            return $arrayString;
+        }else{
+            $arrayString = array(
+                "resultado"=>"Si",
+                "idBD"=>$arrayResultado[0]["id"],
+                "nombre"=>$arrayResultado[0]["nombre"],
+                "dni"=>$arrayResultado[0]["dni"],
+                "nivel"=>$arrayResultado[0]["nivel"]
+            );
+            return $arrayString;
+        }      
+    }
+    private function devolverDNI($correo,$password){
+        $arrayResultado = trabajadores::where('correo','=',$correo)->where('password',"=",md5($password))->get();
         if(sizeOf($arrayResultado)==0){
             $arrayString = array("resultado"=>"No");
             return $arrayString;

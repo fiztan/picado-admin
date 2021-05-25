@@ -6,6 +6,7 @@ use App\Models\picados;
 use App\Models\trabajadores;
 use App\Models\empresas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EmpleadoController extends Controller
 {    
@@ -96,12 +97,44 @@ class EmpleadoController extends Controller
             return "nope";
         }
     }
+    public function reseteoPassEmpleado(Request $request){
+        session()->flash('dniUsuario',session('dniUsuario'));
+        $idTrabajador=$request->input('idTrabajador');
+        $contraseniaSinMD5=$this->random_password();
+        $trabajador=trabajadores::find($idTrabajador);
+        $trabajador->password=md5($contraseniaSinMD5);
+        $correo=$trabajador->correo;
+        $trabajador->save();        
+        //var_dump($correo);
+    
+        return $this->basic_email($correo,$contraseniaSinMD5);
+        //return redirect()->route('reseteoContrasenia');
+        //
+    }
+    private function basic_email($correo,$password) {
+        session()->flash('correo',$correo);
+        $contenido="La nueva contraseña es: ".$password."";
+        Mail::raw($contenido, 
+           function ($message) {
+                $correo=session('correo');
+                $message->to($correo)
+                ->subject('Reseteo de contraseña');
+           }
+        ); 
+        return "Compruebe su correo";
+     } 
+      
+    private function random_password()  
+    {  
+        $longitud = 8; // longitud del password  
+        $pass = substr(md5(rand()),0,$longitud);  
+        return($pass); // devuelve el password   
+    }  
     public function generarInforme(Request $resquest){
         $fechasRecibidaInicial=$this->devolverFechaEsp($resquest->input('fechaDesde'));
         $fechasRecibidaFinal=$this->devolverFechaEsp($resquest->input('fechaHasta'));
         $fechasEntre=[$resquest->input('fechaDesde'),$resquest->input('fechaHasta')];
         session()->flash('dniUsuario',session('dniUsuario'));
-
         $ArregloFinal=[];
         //Hacemos una consulta de trabjadores por su id para tener un array con los ids
         //de los trabajadores y poder recorrerlo correctamente

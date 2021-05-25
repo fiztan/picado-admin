@@ -32,7 +32,7 @@
                     <li class="nav-item active">
                     <a class="nav-link" href="/PicadosApartado">Picados</a></li>
                     <li class="nav-item"><a class="nav-link" href="/DumpBaseDatos">Dump Base Datos (No seguro)</a></li>
-                @endif
+                @endif                
                     <li class="nav-item"><a class="nav-link" href="/Deslogarse">Deslogarse</a></li>
                 </ul>
             </div>          

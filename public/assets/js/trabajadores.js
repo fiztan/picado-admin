@@ -1,11 +1,32 @@
 
 let botonCrear= document.getElementById('botonCrear');
 //Realiza la llamada AJAX para mostrar todos los trabajadores
+let buttonReseteo = document.getElementById('botonReseteo');
 consultaTodosEmpleadosTabla();
 //En caso de selecionar el boton crear inicializará un formulario
 botonCrear.addEventListener('click',function(){
     inicializarFormulario()
 });
+buttonReseteo.addEventListener('click',resetearPass);
+
+function resetearPass(){
+    let inputIdTrabajador= document.getElementById('idBDForm').value;
+    $.ajax({
+        url: '/reseteoPass',
+        type: 'GET',
+        data: {
+            'idTrabajador': inputIdTrabajador
+        },
+        success: function (response) {
+            console.log("Nice: ");
+            console.log("Enviado=> /reseteoPass?" + "idTrabajador" + "=" + inputIdTrabajador);
+            mostrarMensaje(response);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Error: " + errorThrown);
+        }
+    });
+}
 //Realiza la consulta a base de datos para realizar la tabla de empleados
 function consultaTodosEmpleadosTabla() {
     let numeroBD=document.getElementById('idBDActual'); 
@@ -26,6 +47,9 @@ function consultaTodosEmpleadosTabla() {
             console.log("Error: " + errorThrown);
         }
     });
+}
+function mostrarMensaje(Mensaje){
+alert(Mensaje)
 }
 //Muestra el resultado de todos los trabajadadores y añade botones que añadirá funcionalidad en el futuro
 function mostrarResultado(resultado){
@@ -75,6 +99,8 @@ function botonLiseneres(){
 function MostrarEditarEmpleado(code){
     let inputDB = document.getElementById('idBDForm');
     inputDB.value=code;
+    let buttonReseteo = document.getElementById('botonReseteo');
+    buttonReseteo.setAttribute('class','btn btn-warning');
     inicializarFormulario();
 }
 
@@ -131,6 +157,8 @@ function funcionalidadBotonCancelar(){
         let inputDB = document.getElementById('idBDForm');
         let inputNombre = document.getElementById('nombreInput');
         let inputDNI = document.getElementById('dniInput');
+        let buttonReseteo = document.getElementById('botonReseteo');
+        buttonReseteo.setAttribute('class','d-none');
         inputNombre.value="";
         inputDNI.value="";
         inputDB.value="";
@@ -138,7 +166,8 @@ function funcionalidadBotonCancelar(){
         tituloCrear.setAttribute('class','d-none');
         tituloEditar.setAttribute('class','d-none');
         botonCrear.setAttribute('class','btn btn-success');  
-        consultaTodosEmpleadosTabla()
+        consultaTodosEmpleadosTabla();
+
     })
 }
 

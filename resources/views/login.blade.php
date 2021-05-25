@@ -1,3 +1,9 @@
+<?php 
+    $detallesExito="";
+    if($exito!=""){
+        $detallesExito=$exito;
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,27 +13,59 @@
     </head>
 <body>
     <div class="container text-center">
-        <div class="row mt-5">
-            <div class="col-12">
-                <h1>Login</h1>
-            </div>
-        </div>
-        
-        <form action="/Login" class="row mt-2" method="POST">
-            <div class="col-12">
-                <div class="form-group">
-                    <label for="dniElegido">DNI</label>
-                    <input maxlength="9" type="text" class="form-control text-center" name="dniElegido" id="dniElegido" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <input type="hidden" class="d-none" name="_token" value="{{ csrf_token() }}" />
+        @if(!empty($detallesExito))            
+            <div class="row mt-2">
+                <div class="col-12">
+                @if($detallesExito=="Correo incorrecto")
+                    <div class="alert alert-danger" role="alert">
+                        {{$detallesExito}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @else
+                    <div class="alert alert-success" role="alert">
+                        {{$detallesExito}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
 
-                    <button type="submit" class="btn btn-primary">Loguearse</button>
+                    
                 </div>
             </div>
-        </form>
-        
-        
+        @endif
+        <div class="row mt-4 justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                    Mi Picado Login
+                    </div>
+                    <div class="card-body">
+                        <form action="/Login" class="mt-2" method="POST">
+                            <div class="col-12">         
+                                <div class="form-group row">
+                                    <label for="correoInput" class="col-4">Correo</label>
+                                    <input type="text" class="form-control text-left col-8" name="correo" id="correoInput" autocomplete="off">
+                                </div>
+                                <div class="form-group row">
+                                    <label for="passwordInput" class="col-4">Contraseña</label>
+                                    <input maxlength="9" type="password" class="form-control text-left col-8" name="password" id="passwordInput" autocomplete="off">
+                                </div>
+                                <div class="form-group row">
+                                    <input type="hidden" class="d-none" name="_token" value="{{ csrf_token() }}" />
+                                    <div class="col-4 text-right">
+                                        <button type="submit" class="btn btn-primary">Loguearse</button>                                 
+                                    </div>
+                                    <a class="col-8" href="/olvidoPassword">Ha olvidado mi contraseña</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>                
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

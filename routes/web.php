@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/',[App\Http\Controllers\HomeController::class, 'showLogin'])->name('nada');
 Route::post('/Login',[App\Http\Controllers\HomeController::class, 'doLogin']);
 Route::get('/PicadosApartado',[App\Http\Controllers\HomeController::class, 'rutaPicado'])->name('PicadosApartado');
@@ -28,4 +29,10 @@ Route::get('/Pruebas',[App\Http\Controllers\EmpleadoController::class, 'verJorna
 Route::get('/GenerarDocumento',[App\Http\Controllers\EmpleadoController::class, 'generarInformeSimplificado']);
 Route::get('/DumpearInsert',[App\Http\Controllers\exportarController::class, 'ejecutarExportarPHP']);
 Route::post('/InsertarTrabajador',[App\Http\Controllers\EmpleadoController::class, 'inserteEmpleado']);
+Route::get('/reseteoPass',[App\Http\Controllers\EmpleadoController::class, 'reseteoPassEmpleado'])->name('reseteoContrasenia');
+Route::get('/olvidoPassword',[App\Http\Controllers\HomeController::class, 'olvidoPassword']);
+Route::get('/ReseteoPassUsuario',[App\Http\Controllers\HomeController::class, 'reseteoPassEmpleadoUsuario']);
+//Route::get('/enviarEmailBasico',[App\Http\Controllers\MailController::class, 'basic_email']);
+
+ 
 

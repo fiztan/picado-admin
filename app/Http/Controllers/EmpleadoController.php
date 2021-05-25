@@ -16,6 +16,7 @@ class EmpleadoController extends Controller
         $nombre=$request->input('nombre');
         $dni=$request->input('dni');
         $empresa=$request->input('empresa');
+        $correo=$request->input('correo');
         $idUsuario=$request->input('idBDUsuario');
         $datosUsario=$this->mostrarDatosUsuario($idUsuario);
         //Contiene todos los detalles del usuario actual en caso que necesitemos estos datos
@@ -29,7 +30,7 @@ class EmpleadoController extends Controller
         );
         if($idEmpleado==null){
             //Hacer insert devuelve 1 en caso de exito           
-            $resultado=$this->crearTrabajador($nombre,$dni,$empresa);
+            $resultado=$this->crearTrabajador($nombre,$dni,$empresa,$correo);
             if($resultado==1){
                 $arrayString["detalles"]="Se ha realizado de forma correcta la insercción";
                 session()->flash('exitoInsertando',$arrayString["detalles"]);
@@ -44,7 +45,7 @@ class EmpleadoController extends Controller
             }
         }else{
             //Update ya se hace devuelve 1 en caso de exito                   
-            $resultado=$this->updateTrabajador($idEmpleado,$nombre,$dni,$empresa);
+            $resultado=$this->updateTrabajador($idEmpleado,$nombre,$dni,$empresa,$correo);
             if($resultado==1){
                 $arrayString["detalles"]="Se ha realizado de forma correcta la actualizacion";
                 session()->flash('exitoInsertando',$arrayString["detalles"]);
@@ -239,7 +240,7 @@ class EmpleadoController extends Controller
         session()->flash('dniUsuario',session('dniUsuario'));
         $idEmpleado=$request->input('idEmpleado'); 
         $arrayResultante=trabajadores::
-        selectRaw("trabajadores.id, trabajadores.nombre, trabajadores.dni, trabajadores.id_empresa")->
+        selectRaw("trabajadores.id, trabajadores.nombre, trabajadores.dni, trabajadores.correo, trabajadores.id_empresa")->
         where("id","=",$idEmpleado)->get();
         return $arrayResultante;
     }
@@ -280,21 +281,25 @@ class EmpleadoController extends Controller
     private function mostrarDatosUsuario($idUsuario){
         return trabajadores::where("id","=",$idUsuario)->get();
     }
-    private function crearTrabajador($nombre,$dni,$empresa)
+
+    //Añadir parametro
+    private function crearTrabajador($nombre,$dni,$empresa,$correo)
     {
         $trabajador = new trabajadores;
         $trabajador->nombre = $nombre;
         $trabajador->dni = $dni;
         $trabajador->id_empresa = $empresa;
         $trabajador->nivel = 0;
+        $trabajador->correo=$correo;
         $resultado=$trabajador->save();    
         return $resultado;
     }
-    private function updateTrabajador($idEmpleado, $nombre, $dni, $empresa){
+    private function updateTrabajador($idEmpleado, $nombre, $dni, $empresa,$correo){
         $trabajador = trabajadores::find($idEmpleado);
         $trabajador->nombre = $nombre;
         $trabajador->dni = $dni;
         $trabajador->id_empresa = $empresa;
+        $trabajador->correo=$correo;
         $resultado=$trabajador->save(); 
         return $resultado;
     }

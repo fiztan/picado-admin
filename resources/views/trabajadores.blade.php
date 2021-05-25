@@ -18,6 +18,7 @@ if(isset($usuarioDatos["detalles"])){
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Mi Picado</title>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,7 +31,7 @@ if(isset($usuarioDatos["detalles"])){
                     <a class="nav-link" href="/AdminApartado">Trabajadores</a></li>
                     <li class="nav-item">
                     <a class="nav-link" href="/PicadosApartado">Picados</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/DumpBaseDatos">Dump Base Datos (No seguro)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DumpBaseDatos">Dump Base Datos</a></li>
                     <li class="nav-item"><a class="nav-link" href="/Deslogarse">Deslogarse</a></li>
                 </ul>
             </div>
@@ -78,20 +79,20 @@ if(isset($usuarioDatos["detalles"])){
         
            <form method="post" action="/InsertarTrabajador"  onsubmit="return validacionDatos()" class="col-12 text-center">        
                 
-                <div class="form-group text-left">
-                    
+                <div class="form-group text-left">                    
                     <label for="nombreInput">Nombre</label>
-                    <input type="text" class="form-control" name="nombre" id="nombreInput" placeholder="Marc">
-                   
-                   <input type="text" class="d-none" name="idBD" id="idBDForm">
-                   
+                    <input type="text" class="form-control" name="nombre" id="nombreInput" placeholder="Marc">                   
+                   <input type="text" class="d-none" name="idBD" id="idBDForm">                   
                     <input class="d-none" id="idBDActual" name="idBDUsuario" value="<?php echo $idUsuario?>">
-                    
                 </div>
               
                 <div class="form-group text-left">
                     <label for="dniInput text-left">DNI</label>
                     <input type="text" class="form-control" name="dni" id="dniInput" maxlength=9 placeholder="XXXXXXXXA">
+                </div>
+                <div class="form-group text-left">
+                    <label for="dniInput text-left">Correo</label>
+                    <input type="email" class="form-control" name="correo" id="correoInput" placeholder="">
                 </div>
                 <div class="form-group text-left">
                     <label for="empresasInput">Empresa</label>

@@ -9,7 +9,7 @@
 <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-       <!--  <link rel="stylesheet" href="{{asset('css/camara.css')}}"> -->
+       <title>Mi Picado</title>
     </head>
 <body>
     <div class="container text-center">
@@ -58,7 +58,7 @@
                                     <div class="col-4 text-right">
                                         <button type="submit" class="btn btn-primary">Loguearse</button>                                 
                                     </div>
-                                    <a class="col-8" href="/olvidoPassword">Ha olvidado mi contraseña</a>
+                                    <a class="col-8" href="/olvidoPassword">Olvidé mi contraseña</a>
                                 </div>
                             </div>
                         </form>

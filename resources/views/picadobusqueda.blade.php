@@ -13,6 +13,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
+        <title>Mi Picado</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
@@ -31,7 +32,7 @@
                     </li>
                     <li class="nav-item active">
                     <a class="nav-link" href="/PicadosApartado">Picados</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/DumpBaseDatos">Dump Base Datos (No seguro)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DumpBaseDatos">Dump Base Datos</a></li>
                 @endif                
                     <li class="nav-item"><a class="nav-link" href="/Deslogarse">Deslogarse</a></li>
                 </ul>

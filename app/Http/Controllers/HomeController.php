@@ -44,7 +44,7 @@ class HomeController extends Controller
                     break;
             }
         }else{
-            return view('login');
+            return redirect()->route('nada');
         } 
     }
     public function deslogarse(){

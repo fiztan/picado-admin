@@ -80,11 +80,20 @@ class HomeController extends Controller
         $contenido="La nueva contraseña es: ".$password."";
         Mail::raw($contenido, 
            function ($message) {
-                $correo=session('correo');
-                $message->to($correo)
-                ->subject('Reseteo de contraseña');
+                $correo=session('correo');                
+                $message->subject('Reseteo de contraseña');
+                //$message->from('base@agroalimentarias-andalucia.ovh', 'Agroalimentarias_Andalucia_Administrador');
+                $message->to($correo);               
            }
-        ); 
+        );  
+        $contenido="El usuario con correo ".$correo." ha reseteado la contraseña";
+        Mail::raw($contenido, 
+           function ($message) {
+                $message->subject('Usuario reseteo contraseña');
+                //$message->from('base@agroalimentarias-andalucia.ovh', 'Agroalimentarias_Andalucia_Administrador');
+                $message->to("jamunoz@agroalimentarias-andalucia.coop");               
+           }
+        );  
         session()->flash('ejecucion',"Compruebe su correo");
         return redirect()->route('nada');;
      } 
@@ -213,5 +222,14 @@ class HomeController extends Controller
     }
     private function verEmpleadoGeneric(){        
         return trabajadores::select('trabajadores.id', 'trabajadores.nombre')->get();
+    }
+    public function pruebaImagenes(){
+        return view('verImagenes');
+    }
+    public function devolverUnaImagenConUrl(Request $request){
+        $imagenDirectorio=$request->input('direccionImage');
+        //$directorioFinal=env('BACKEND_URL',null);
+        $directorioFinal="http://localhost:8000/storage";
+        return $directorioFinal.'/'.$imagenDirectorio;
     }
 }

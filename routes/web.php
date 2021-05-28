@@ -33,6 +33,7 @@ Route::get('/reseteoPass',[App\Http\Controllers\EmpleadoController::class, 'rese
 Route::get('/olvidoPassword',[App\Http\Controllers\HomeController::class, 'olvidoPassword']);
 Route::get('/ReseteoPassUsuario',[App\Http\Controllers\HomeController::class, 'reseteoPassEmpleadoUsuario']);
 //Route::get('/enviarEmailBasico',[App\Http\Controllers\MailController::class, 'basic_email']);
-
+Route::get('/pruebaImagenes',[App\Http\Controllers\HomeController::class, 'pruebaImagenes']);
+Route::get('ImagenIndividual',[App\Http\Controllers\HomeController::class,'devolverUnaImagenConUrl']);
  
 

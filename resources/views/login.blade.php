@@ -44,6 +44,7 @@
                     </div>
                     <div class="card-body">
                         <form action="/Login" class="mt-2" method="POST">
+                        @csrf
                             <div class="col-12">         
                                 <div class="form-group row">
                                     <label for="correoInput" class="col-4">Correo</label>

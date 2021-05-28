@@ -1,3 +1,16 @@
+<?php 
+    function devolverDiferencia($horaInicio,$horaFin){
+        $dateInicial = new DateTime("2020-1-1 ".$horaInicio);
+        $dateFin = new DateTime("2020-1-1 ".$horaFin);
+        $diferencia =  $dateInicial->diff($dateFin);
+        if($diferencia->h==0){
+            $resultanteDiferencia = "M: ".$diferencia->i;
+        }else{
+            $resultanteDiferencia = "H: ".$diferencia->h." M: ".$diferencia->i;
+        }
+        return $resultanteDiferencia;
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -24,6 +37,7 @@
                                 <th scope="col">Día</th>
                                 <th scope="col">Hora Inicio</th>
                                 <th scope="col">Hora Fin</th>
+                                <th scope="col">Diferencia E/S</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,11 +51,13 @@
                                 <td>{{$fecha["Fecha"]}}</td>
                                 <td>{{$fecha["fechaMin"]}}</td>
                                 <td>{{$fecha["fechaMax"]}}</td>
+                                <td>{{devolverDiferencia($fecha["fechaMin"],$fecha["fechaMax"])}}</td>
                             </tr>
                         @endforeach
                         <!--Se realiza un for para asegurarse que el espaciado de lineas es correcto para su impresion en pdf -->
                         @for($linea=0;$linea<=(40-$totalLineas);$linea++)
                             <tr>
+                                <td>-</td>
                                 <td>-</td>
                                 <td>-</td>
                                 <td>-</td>

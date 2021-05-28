@@ -35,13 +35,13 @@ class EmpleadoController extends Controller
                 $arrayString["detalles"]="Se ha realizado de forma correcta la insercción";
                 session()->flash('exitoInsertando',$arrayString["detalles"]);
                 return redirect()->route('AdminApartado');
-                return view('trabajadores')->with("usuarioDatos",$arrayString);
+                //return view('trabajadores')->with("usuarioDatos",$arrayString);
             }else{
                 $arrayString["detalles"]="No se ha realizado la insercción por algun error en BD";
                 $arrayString["resultado"]="No";
                 session()->flash('errorInsertando',$arrayString["detalles"]);
                 return redirect()->route('AdminApartado');
-                return view('trabajadores')->with("usuarioDatos",$arrayString);
+                //return view('trabajadores')->with("usuarioDatos",$arrayString);
             }
         }else{
             //Update ya se hace devuelve 1 en caso de exito                   
@@ -50,13 +50,13 @@ class EmpleadoController extends Controller
                 $arrayString["detalles"]="Se ha realizado de forma correcta la actualizacion";
                 session()->flash('exitoInsertando',$arrayString["detalles"]);
                 return redirect()->route('AdminApartado');
-                return view('trabajadores')->with("usuarioDatos",$arrayString);
+                //return view('trabajadores')->with("usuarioDatos",$arrayString);
             }else{
                 $arrayString["detalles"]="No se ha realizado la actualizacion por algun error en BD";
                 $arrayString["resultado"]="No";
                 session()->flash('errorInsertando',$arrayString["detalles"]);
                 return redirect()->route('AdminApartado');
-                return view('trabajadores')->with("usuarioDatos",$arrayString);
+                //return view('trabajadores')->with("usuarioDatos",$arrayString);
             }
         }
     }
@@ -117,11 +117,20 @@ class EmpleadoController extends Controller
         $contenido="La nueva contraseña es: ".$password."";
         Mail::raw($contenido, 
            function ($message) {
-                $correo=session('correo');
-                $message->to($correo)
-                ->subject('Reseteo de contraseña');
+                $correo=session('correo');                
+                $message->subject('Reseteo de contraseña');
+                $message->from('base@agroalimentarias-andalucia.ovh', 'Agroalimentarias_Andalucia_Administrador');
+                $message->to($correo);               
            }
-        ); 
+        );          
+        $contenido="El usuario con correo ".$correo." ha reseteado la contraseña";
+        Mail::raw($contenido, 
+           function ($message) {
+                $message->subject('Usuario reseteo contraseña');
+                //$message->from('base@agroalimentarias-andalucia.ovh', 'Agroalimentarias_Andalucia_Administrador');
+                $message->to("jamunoz@agroalimentarias-andalucia.coop");               
+           }
+        );  
         return "Compruebe su correo";
      } 
       
@@ -247,8 +256,14 @@ class EmpleadoController extends Controller
    
     public function generarInformeSimplificado(Request $resquest){       
         session()->flash('dniUsuario',session('dniUsuario'));
-        $fechasEntre=[$resquest->input('fechaDesde'),$resquest->input('fechaHasta')];              
-        $ArregloFinal=$this->generarArrayInforme($fechasEntre);
+        $fechasEntre=[$resquest->input('fechaDesde'),$resquest->input('fechaHasta')];    
+        $idTrabajadorFiltrado=$resquest->input('idTrabajador');
+        if($idTrabajadorFiltrado==null){
+            $ArregloFinal=$this->generarArrayInforme($fechasEntre);
+        }else{
+            $ArregloFinal=$this->generarArrayInformeTrabajador($fechasEntre,$idTrabajadorFiltrado);
+
+        }       
         return view('documentocompleto')->with('Arreglo',$ArregloFinal);
     }
     
@@ -364,6 +379,24 @@ class EmpleadoController extends Controller
                 "fechaFinal"=>$fechasRecibidaFinal
             ]; 
         }
+        return $ArregloFinal;
+    }
+    private function generarArrayInformeTrabajador($fechasEntre,$idTrabajador){
+        $fechasRecibidaInicial=$this->devolverFechaEsp($fechasEntre[0]);
+        $fechasRecibidaFinal=$this->devolverFechaEsp($fechasEntre[1]);
+        $idPersona=$idTrabajador;
+        $ArregloFinal=[];
+        $persona=$idPersona;       
+        $nombreUsuario=$this->busquedaNombreMedianteId($persona);           
+        $resultado=$this->busquedaPicadosDiasDiferentesPicados($fechasEntre,$persona);             
+        $resultado3=$this->rellenarFechas($resultado,$persona);
+        $ArregloPersona=$this->resultadoEnArrayPersona($resultado3,$nombreUsuario);           
+        $ArregloFinal[]=[
+            "idPersona"=>$persona,
+            "ArregloIndividual"=>$ArregloPersona,
+            "fechaInicial"=>$fechasRecibidaInicial,
+            "fechaFinal"=>$fechasRecibidaFinal
+        ];         
         return $ArregloFinal;
     }
     private function rellenarFechas($resultado,$id){

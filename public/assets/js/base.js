@@ -80,7 +80,7 @@ function mostrarResultado(respuesta){
             '<th scope="col">Nombre</th>'+
             '<th scope="col">Fecha</th>'+
             '<th scope="col">Hora</th>'+           
-            '<th scope="col">Motivo</th>'+             
+            '<th scope="col">Localizacion</th>'+             
             '<th scope="col">Imagen</th>'+
             '<th scope="col">Localizacion</th>'+
         '</tr>'+
@@ -91,18 +91,34 @@ function mostrarResultado(respuesta){
         stringTabla+='<td>'+item.nombre+'</td>';
         stringTabla+='<td>'+slitFechaBarra(item.fecha)+'</td>';
         stringTabla+='<td>'+slitFechaHora(item.fecha)+'</td>';
+        /*
         if((item.motivo==null)||(item.motivo=="")){
             stringTabla+='<td>No hay motivo </td>';
         }else{
             stringTabla+='<td>'+item.motivo+'</td>';
-        }
+        } */
+        if(item.localizacion!=null){
+            stringTabla+='<td>'+item.localizacion+'</td>';
+        }else{
+            stringTabla+='<td>'+'No tiene localizacion'+'</td>';
+        }   
         stringTabla+='<td>';
         if(item.imagen!=null){
         stringTabla+='<a data-fancybox="images" href="data:image/png;base64,'+item.imagen+'">'
-        stringTabla+='<image height="50" width="50"';
-        stringTabla+='src="data:image/png;base64,'+item.imagen+'">';
-        stringTabla+='</image>';       
-        stringTabla+="</a>" 
+            if(item.imagen.includes("principal")){
+                let url="http://localhost:9900/";
+                stringTabla+='<a data-fancybox="images" href="'+url+item.imagen+'">'
+                stringTabla+='<image height="50" width="50"';
+                stringTabla+='src="'+url+item.imagen+'">';
+                stringTabla+='</image>';       
+                stringTabla+="</a>";
+            }else{
+                stringTabla+='<a data-fancybox="images" href="data:image/png;base64,'+item.imagen+'">'
+                stringTabla+='<image height="50" width="50"';
+                stringTabla+='src="data:image/png;base64,'+item.imagen+'">';
+                stringTabla+='</image>';       
+                stringTabla+="</a>"; 
+            }        
         }else{
             stringTabla+=""
         }
